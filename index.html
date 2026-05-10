@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drue Cafe — Where Every Sip Tells a Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --espresso: #1C0F08;
+    --roast: #3D1F10;
+    --caramel: #A0522D;
+    --gold: #C9963A;
+    --cream: #F5ECD7;
+    --latte: #EDD9BB;
+    --milk: #FAF6EE;
+    --sage: #5A6E4A;
+    --sage-light: #8FAD7A;
+    --text-dark: #1C0F08;
+    --text-muted: #6B5040;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--milk);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, width 0.2s, height 0.2s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s ease, width 0.2s, height 0.2s, opacity 0.2s;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 1.5rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(28, 15, 8, 0.96);
+    backdrop-filter: blur(20px);
+    padding: 1rem 4rem;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--latte);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 100%;
+    height: 1px; background: var(--gold);
+    transition: right 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { right: 0; }
+  .nav-reserve {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.6rem 1.6rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: none;
+  }
+  .nav-reserve:hover {
+    background: var(--gold);
+    color: var(--espresso);
+  }
+
+  /* HERO */
+  #hero {
+    height: 100vh;
+    background: var(--espresso);
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(201,150,58,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(90,110,74,0.08) 0%, transparent 50%),
+      linear-gradient(135deg, #1C0F08 0%, #2D1508 40%, #1A0E06 100%);
+  }
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+  /* Abstract coffee rings decoration */
+  .hero-rings {
+    position: absolute;
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    width: 600px; height: 600px;
+    opacity: 0.07;
+  }
+  .hero-rings circle { fill: none; stroke: var(--gold); }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 4rem;
+    max-width: 800px;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.08;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    color: var(--latte);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 1.2rem; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--espresso);
+    padding: 0.9rem 2.2rem;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s;
+    cursor: none;
+  }
+  .btn-primary:hover { background: var(--cream); }
+  .btn-ghost {
+    color: var(--latte);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.3s;
+    cursor: none;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost span { font-size: 1.1rem; }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--text-muted); font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    opacity: 0; animation: fadeUp 1s 1.4s forwards;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-strip {
+    background: var(--gold);
+    padding: 0.9rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-flex;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-item {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--espresso);
+    font-weight: 500;
+    padding: 0 2.5rem;
+  }
+  .marquee-dot { color: var(--roast); }
+
+  /* ABOUT */
+  #about {
+    padding: 8rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    background: var(--milk);
+    position: relative;
+  }
+  .about-visual {
+    position: relative;
+    height: 560px;
+  }
+  .about-img-main {
+    position: absolute;
+    right: 0; top: 0;
+    width: 80%; height: 80%;
+    background: linear-gradient(145deg, var(--roast) 0%, var(--caramel) 50%, var(--roast) 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .coffee-illustration {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-img-accent {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 50%; height: 50%;
+    background: var(--cream);
+    border: 1px solid var(--latte);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.5rem;
+  }
+  .accent-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--gold);
+  }
+  .accent-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .about-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--espresso);
+    margin-bottom: 1.5rem;
+  }
+  .about-title em { font-style: italic; color: var(--caramel); }
+  .about-text {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .about-pillars {
+    display: flex; flex-direction: column; gap: 1rem;
+    border-top: 1px solid var(--latte);
+    padding-top: 1.5rem;
+  }
+  .pillar {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .pillar-icon {
+    width: 40px; height: 40px;
+    background: var(--cream);
+    border: 1px solid var(--latte);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .pillar-text { font-size: 0.85rem; color: var(--text-muted); font-weight: 300; }
+  .pillar-text strong { color: var(--espresso); font-weight: 500; display: block; font-size: 0.88rem; }
+
+  /* MENU */
+  #menu {
+    background: var(--espresso);
+    padding: 8rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #menu::before {
+    content: 'MENU';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20vw;
+    font-weight: 300;
+    color: rgba(201,150,58,0.04);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative; z-index: 1;
+  }
+  .section-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .section-eyebrow::before, .section-eyebrow::after {
+    content: ''; width: 30px; height: 1px; background: var(--gold); opacity: 0.5;
+  }
+  .section-title-light {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .section-title-light em { font-style: italic; color: var(--gold); }
+
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0; margin-bottom: 3rem;
+    position: relative; z-index: 1;
+    border: 1px solid rgba(201,150,58,0.2);
+    width: fit-content; margin-inline: auto;
+  }
+  .tab-btn {
+    padding: 0.75rem 1.8rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.3s;
+    border-right: 1px solid rgba(201,150,58,0.2);
+    position: relative;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active {
+    background: var(--gold);
+    color: var(--espresso);
+    font-weight: 500;
+  }
+  .tab-btn:hover:not(.active) { color: var(--gold); }
+
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    position: relative; z-index: 1;
+    background: rgba(201,150,58,0.1);
+  }
+  .menu-item {
+    background: var(--espresso);
+    padding: 2rem;
+    position: relative;
+    transition: background 0.3s;
+    group: true;
+  }
+  .menu-item:hover { background: var(--roast); }
+  .menu-item-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    color: rgba(201,150,58,0.4);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .menu-item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .menu-item-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  .menu-item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 300;
+  }
+  .menu-item-tag {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: rgba(201,150,58,0.15);
+    color: var(--gold);
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(201,150,58,0.2);
+  }
+
+  /* SPECIALS */
+  #specials {
+    padding: 8rem 4rem;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .specials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+  .special-card {
+    background: var(--milk);
+    border: 1px solid var(--latte);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+    cursor: none;
+  }
+  .special-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(28,15,8,0.15);
+  }
+  .special-card-visual {
+    height: 240px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .special-badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--gold);
+    color: var(--espresso);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    font-weight: 500;
+  }
+  .special-body { padding: 1.5rem 1.8rem 2rem; }
+  .special-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--espresso);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .special-name em { font-style: italic; color: var(--caramel); }
+  .special-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  .special-footer {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .special-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+  }
+  .special-try {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: gap 0.3s;
+    cursor: none;
+  }
+  .special-card:hover .special-try { gap: 0.7rem; }
+
+  /* GALLERY */
+  #gallery {
+    padding: 8rem 4rem;
+    background: var(--espresso);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 220px);
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .gallery-item {
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+  }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 2; }
+  .gallery-visual {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.5s ease;
+  }
+  .gallery-item:hover .gallery-visual { transform: scale(1.05); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: rgba(28,15,8,0);
+    transition: background 0.3s;
+    display: flex; align-items: flex-end; padding: 1.2rem;
+  }
+  .gallery-item:hover .gallery-overlay { background: rgba(28,15,8,0.4); }
+  .gallery-caption {
+    color: var(--cream);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s;
+  }
+  .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    padding: 8rem 4rem;
+    background: var(--milk);
+    position: relative;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+  .testimonial-card {
+    background: var(--cream);
+    border: 1px solid var(--latte);
+    padding: 2.2rem;
+    position: relative;
+  }
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 0.5;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--espresso);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+  .testimonial-stars {
+    color: var(--gold);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+  }
+  .testimonial-author {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--espresso);
+    letter-spacing: 0.05em;
+  }
+  .testimonial-role {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* RESERVATION */
+  #reservation {
+    padding: 8rem 4rem;
+    background: var(--roast);
+    position: relative;
+    overflow: hidden;
+  }
+  #reservation::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(201,150,58,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .reservation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+    margin-top: 4rem;
+    position: relative; z-index: 1;
+  }
+  .contact-info { }
+  .contact-block {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(201,150,58,0.15);
+  }
+  .contact-block:last-child { border-bottom: none; }
+  .contact-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .contact-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--cream);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .hours-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1.5rem;
+    margin-top: 0.8rem;
+  }
+  .hour-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--latte);
+    font-weight: 300;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(201,150,58,0.08);
+  }
+  .hour-time { color: var(--gold); }
+
+  .res-form { }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,150,58,0.2);
+    color: var(--cream);
+    padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.06);
+  }
+  .form-input::placeholder { color: rgba(160,82,45,0.5); }
+  .form-textarea { resize: vertical; min-height: 100px; }
+  .form-select option { background: var(--roast); color: var(--cream); }
+  .btn-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--espresso);
+    border: none;
+    padding: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: none;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover { background: var(--cream); }
+
+  /* FOOTER */
+  footer {
+    background: var(--espresso);
+    padding: 4rem 4rem 2rem;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(201,150,58,0.15);
+    margin-bottom: 2rem;
+  }
+  .footer-brand { }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+  .footer-logo span { color: var(--gold); font-style: italic; }
+  .footer-tagline {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+    max-width: 220px;
+  }
+  .footer-social {
+    display: flex; gap: 1rem; margin-top: 1.5rem;
+  }
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,150,58,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: all 0.3s;
+    cursor: none;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 300;
+    transition: color 0.3s;
+    cursor: none;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: rgba(107,80,64,0.6);
+    font-weight: 300;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes steam {
+    0% { transform: translateY(0) scaleX(1); opacity: 0.6; }
+    50% { transform: translateY(-20px) scaleX(1.3); opacity: 0.3; }
+    100% { transform: translateY(-40px) scaleX(0.8); opacity: 0; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* SECTION DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.2;
+  }
+
+  /* SVG coffee art styles */
+  .cup-float { animation: float 4s ease-in-out infinite; }
+  .steam-1 { animation: steam 2s ease-in-out infinite; }
+  .steam-2 { animation: steam 2s ease-in-out infinite 0.4s; }
+  .steam-3 { animation: steam 2s ease-in-out infinite 0.8s; }
+
+  /* mobile hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; }
+  .hamburger span { width: 24px; height: 1px; background: var(--cream); display: block; transition: all 0.3s; }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1.2rem 2rem; }
+    nav.scrolled { padding: 0.8rem 2rem; }
+    .nav-links { gap: 1.5rem; }
+    #about, .reservation-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { height: 320px; }
+    .menu-grid { grid-template-columns: repeat(2, 1fr); }
+    .specials-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 200px); }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .gallery-item:nth-child(4) { grid-column: span 1; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links, .nav-reserve { display: none; }
+    .hamburger { display: flex; }
+    #hero, #about, #menu, #specials, #gallery, #testimonials, #reservation, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hero-content { padding: 0 1.5rem; }
+    .hero-title { font-size: 2.8rem; }
+    .menu-grid, .specials-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 1; grid-row: span 1; }
+    .gallery-item { height: 200px; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+    .menu-tabs { flex-wrap: wrap; }
+    .tab-btn { border-right: none; border-bottom: 1px solid rgba(201,150,58,0.2); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Drue <span>Cafe</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#specials">Specials</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reservation">Reserve</a></li>
+  </ul>
+  <a href="#reservation" class="nav-reserve">Book a Table</a>
+  <div class="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <svg class="hero-rings" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="300" cy="300" r="100" stroke-width="1"/>
+    <circle cx="300" cy="300" r="160" stroke-width="0.5"/>
+    <circle cx="300" cy="300" r="220" stroke-width="0.8"/>
+    <circle cx="300" cy="300" r="280" stroke-width="0.3"/>
+    <circle cx="300" cy="300" r="250" stroke-width="1.5"/>
+  </svg>
+  
+  <div class="hero-content">
+    <div class="hero-eyebrow">Est. 2019 &nbsp;·&nbsp; Dhaka, Bangladesh</div>
+    <h1 class="hero-title">Where Every<br>Sip <em>Tells</em> a<br>Story</h1>
+    <p class="hero-subtitle">Fresh food, handcrafted drinks, and an atmosphere that wraps around you like your favourite blanket on a rainy afternoon.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#reservation" class="btn-ghost">Reserve a Table <span>→</span></a>
+    </div>
+  </div>
+
+  <!-- Animated coffee cup SVG -->
+  <div style="position:absolute; right: 8%; top: 50%; transform: translateY(-50%); opacity:0.9; display:flex;">
+    <svg class="cup-float" width="280" height="320" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Steam -->
+      <path class="steam-1" d="M100 60 Q95 45 100 30" stroke="#C9963A" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path class="steam-2" d="M140 50 Q135 32 140 18" stroke="#C9963A" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path class="steam-3" d="M180 60 Q185 42 180 28" stroke="#C9963A" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <!-- Saucer -->
+      <ellipse cx="140" cy="265" rx="110" ry="18" fill="#3D1F10"/>
+      <ellipse cx="140" cy="260" rx="110" ry="18" fill="#4A2510"/>
+      <ellipse cx="140" cy="256" rx="100" ry="14" fill="#3D1F10"/>
+      <!-- Cup body -->
+      <path d="M60 160 L80 260 H200 L220 160 Z" fill="#3D1F10"/>
+      <path d="M60 160 L80 260 H200 L220 160 Z" fill="url(#cupGrad)"/>
+      <!-- Cup top rim -->
+      <ellipse cx="140" cy="160" rx="80" ry="14" fill="#4A2510"/>
+      <ellipse cx="140" cy="156" rx="80" ry="14" fill="#5C3020"/>
+      <!-- Coffee surface -->
+      <ellipse cx="140" cy="156" rx="72" ry="12" fill="#2C1208"/>
+      <!-- Latte art -->
+      <path d="M140 152 Q130 148 120 152 Q130 156 140 152 Q150 148 160 152 Q150 156 140 152Z" fill="#A0522D" opacity="0.6"/>
+      <circle cx="140" cy="152" r="5" fill="#A0522D" opacity="0.4"/>
+      <!-- Handle -->
+      <path d="M220 185 Q255 185 255 215 Q255 245 220 245" stroke="#4A2510" stroke-width="16" fill="none" stroke-linecap="round"/>
+      <path d="M220 185 Q248 185 248 215 Q248 238 220 238" stroke="#5C3020" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <!-- Gold rim highlight -->
+      <ellipse cx="140" cy="156" rx="80" ry="14" fill="none" stroke="#C9963A" stroke-width="1.5" opacity="0.4"/>
+      <defs>
+        <linearGradient id="cupGrad" x1="60" y1="160" x2="220" y2="260" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#C9963A" stop-opacity="0.1"/>
+          <stop offset="100%" stop-color="#C9963A" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="hero-scroll">
+    Scroll to explore
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="marquee-item">Artisan Coffee <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Fresh Pastries <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Handcrafted Drinks <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cozy Atmosphere <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Farm to Table <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Est. 2019 <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Artisan Coffee <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Fresh Pastries <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Handcrafted Drinks <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cozy Atmosphere <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Farm to Table <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Est. 2019 <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-img-main">
+      <!-- Interior illustration -->
+      <svg width="100%" height="100%" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background wall -->
+        <rect width="400" height="340" fill="#2D1508"/>
+        <!-- Window -->
+        <rect x="120" y="30" width="160" height="120" fill="#1C0F08" opacity="0.5"/>
+        <rect x="122" y="32" width="156" height="116" fill="#0A1520" opacity="0.6"/>
+        <line x1="200" y1="32" x2="200" y2="148" stroke="#C9963A" stroke-width="1" opacity="0.4"/>
+        <line x1="122" y1="90" x2="278" y2="90" stroke="#C9963A" stroke-width="1" opacity="0.4"/>
+        <!-- Light rays from window -->
+        <path d="M122 32 L60 200" stroke="#C9963A" stroke-width="0.3" opacity="0.2"/>
+        <path d="M278 32 L340 200" stroke="#C9963A" stroke-width="0.3" opacity="0.2"/>
+        <!-- Counter -->
+        <rect x="20" y="240" width="360" height="100" fill="#1C0F08"/>
+        <rect x="20" y="235" width="360" height="12" fill="#A0522D"/>
+        <!-- Coffee machine on counter -->
+        <rect x="160" y="180" width="80" height="58" rx="4" fill="#1A0A04"/>
+        <rect x="162" y="182" width="76" height="40" rx="2" fill="#2A1008"/>
+        <circle cx="200" cy="202" r="12" fill="#0D0605" stroke="#C9963A" stroke-width="1"/>
+        <circle cx="200" cy="202" r="7" fill="#1C0F08"/>
+        <rect x="185" y="220" width="30" height="4" rx="2" fill="#C9963A" opacity="0.6"/>
+        <rect x="190" y="224" width="4" height="14" fill="#C9963A" opacity="0.4"/>
+        <rect x="206" y="224" width="4" height="14" fill="#C9963A" opacity="0.4"/>
+        <!-- Cups on counter -->
+        <ellipse cx="80" cy="236" rx="18" ry="4" fill="#3D1F10"/>
+        <path d="M62 236 L66 250 H94 L98 236Z" fill="#3D1F10"/>
+        <ellipse cx="80" cy="236" rx="18" ry="4" fill="#5C3020" opacity="0.5"/>
+        <ellipse cx="300" cy="236" rx="14" ry="3" fill="#3D1F10"/>
+        <path d="M286 236 L289 248 H311 L314 236Z" fill="#3D1F10"/>
+        <!-- Plant -->
+        <rect x="330" y="200" width="8" height="40" fill="#3D1F10"/>
+        <ellipse cx="340" cy="190" rx="20" ry="25" fill="#5A6E4A"/>
+        <ellipse cx="330" cy="200" rx="15" ry="18" fill="#4A5D3A"/>
+        <ellipse cx="352" cy="195" rx="12" ry="16" fill="#4A5D3A"/>
+        <!-- Decorative lights -->
+        <circle cx="50" cy="25" r="3" fill="#C9963A" opacity="0.8"/>
+        <circle cx="100" cy="15" r="3" fill="#C9963A" opacity="0.8"/>
+        <circle cx="300" cy="20" r="3" fill="#C9963A" opacity="0.8"/>
+        <circle cx="350" cy="10" r="3" fill="#C9963A" opacity="0.6"/>
+        <line x1="50" y1="25" x2="100" y2="15" stroke="#C9963A" stroke-width="0.5" opacity="0.3"/>
+        <line x1="100" y1="15" x2="200" y2="8" stroke="#C9963A" stroke-width="0.5" opacity="0.3"/>
+        <line x1="200" y1="8" x2="300" y2="20" stroke="#C9963A" stroke-width="0.5" opacity="0.3"/>
+        <line x1="300" y1="20" x2="350" y2="10" stroke="#C9963A" stroke-width="0.5" opacity="0.3"/>
+        <!-- Warm glow -->
+        <ellipse cx="200" cy="320" rx="200" ry="80" fill="#C9963A" opacity="0.04"/>
+      </svg>
+    </div>
+    <div class="about-img-accent">
+      <div class="accent-number">5★</div>
+      <div class="accent-label">Rated by 800+ guests</div>
+    </div>
+  </div>
+
+  <div class="about-content reveal reveal-delay-1">
+    <div class="about-label">Our Story</div>
+    <h2 class="about-title">A corner of warmth<br>in a <em>bustling city</em></h2>
+    <p class="about-text">Drue Cafe was born from a simple obsession — a belief that a great cup of coffee and honest food can make an ordinary day extraordinary. Tucked in the heart of Dhaka, we've been crafting moments of pause since 2019.</p>
+    <p class="about-text">Every bean is sourced with care, every recipe is tested with love, and every guest is treated like family. This is more than a cafe — it's a ritual.</p>
+    <div class="about-pillars">
+      <div class="pillar">
+        <div class="pillar-icon">🌿</div>
+        <div class="pillar-text">
+          <strong>Fresh Ingredients</strong>
+          Locally sourced, seasonally inspired produce every single day
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">☕</div>
+        <div class="pillar-text">
+          <strong>Artisan Coffee</strong>
+          Single-origin beans, precision-roasted in small batches
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-text">
+          <strong>Community First</strong>
+          A space where neighbors become friends and ideas take flight
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">What We Serve</div>
+    <h2 class="section-title-light">Our <em>Curated</em> Menu</h2>
+  </div>
+
+  <div class="menu-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab('hot')">Hot Drinks</button>
+    <button class="tab-btn" onclick="switchTab('cold')">Cold Drinks</button>
+    <button class="tab-btn" onclick="switchTab('food')">Food & Snacks</button>
+    <button class="tab-btn" onclick="switchTab('dessert')">Desserts</button>
+  </div>
+
+  <div id="tab-hot" class="menu-panel active">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-num">01</div><div class="menu-item-name">Drue Signature Espresso</div><div class="menu-item-desc">Double shot of our house-blend, with notes of dark chocolate and toasted hazelnut</div><div class="menu-item-price">৳ 180</div><div class="menu-item-tag">Best Seller</div></div>
+      <div class="menu-item"><div class="menu-item-num">02</div><div class="menu-item-name">Velvet Cappuccino</div><div class="menu-item-desc">Silky microfoam over rich espresso, dusted with cinnamon and orange zest</div><div class="menu-item-price">৳ 220</div></div>
+      <div class="menu-item"><div class="menu-item-num">03</div><div class="menu-item-name">Caramel Latte</div><div class="menu-item-desc">Smooth espresso with steamed milk, house-made salted caramel drizzle</div><div class="menu-item-price">৳ 250</div></div>
+      <div class="menu-item"><div class="menu-item-num">04</div><div class="menu-item-name">Masala Chai</div><div class="menu-item-desc">Fragrant spiced tea with ginger, cardamom, clove and frothy warm milk</div><div class="menu-item-price">৳ 160</div><div class="menu-item-tag">Local Fav</div></div>
+      <div class="menu-item"><div class="menu-item-num">05</div><div class="menu-item-name">Dark Hot Chocolate</div><div class="menu-item-desc">Belgian dark chocolate melted with whole milk, topped with fresh cream</div><div class="menu-item-price">৳ 240</div></div>
+      <div class="menu-item"><div class="menu-item-num">06</div><div class="menu-item-name">Flat White</div><div class="menu-item-desc">Ristretto-based, velvety microfoam, minimal and intensely flavorful</div><div class="menu-item-price">৳ 200</div></div>
+    </div>
+  </div>
+
+  <div id="tab-cold" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-num">01</div><div class="menu-item-name">Drue Cold Brew</div><div class="menu-item-desc">18-hour slow-steeped coffee, served over hand-chipped ice with a hint of vanilla</div><div class="menu-item-price">৳ 280</div><div class="menu-item-tag">Signature</div></div>
+      <div class="menu-item"><div class="menu-item-num">02</div><div class="menu-item-name">Hazelnut Iced Latte</div><div class="menu-item-desc">Cold espresso, house hazelnut syrup, oat milk, perfectly balanced</div><div class="menu-item-price">৳ 260</div></div>
+      <div class="menu-item"><div class="menu-item-num">03</div><div class="menu-item-name">Mango Smoothie</div><div class="menu-item-desc">Fresh Rajshahi mango, coconut milk, lime zest and a touch of honey</div><div class="menu-item-price">৳ 220</div><div class="menu-item-tag">Seasonal</div></div>
+      <div class="menu-item"><div class="menu-item-num">04</div><div class="menu-item-name">Watermelon Cooler</div><div class="menu-item-desc">Fresh watermelon juice, mint, cucumber water and rose water spritz</div><div class="menu-item-price">৳ 180</div></div>
+      <div class="menu-item"><div class="menu-item-num">05</div><div class="menu-item-name">Matcha Latte</div><div class="menu-item-desc">Ceremonial grade matcha, oat milk, sweetened with agave over ice</div><div class="menu-item-price">৳ 270</div></div>
+      <div class="menu-item"><div class="menu-item-num">06</div><div class="menu-item-name">Sparkling Citrus</div><div class="menu-item-desc">House-squeezed citrus blend, sparkling water, elderflower and fresh herbs</div><div class="menu-item-price">৳ 160</div></div>
+    </div>
+  </div>
+
+  <div id="tab-food" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-num">01</div><div class="menu-item-name">Avocado Toast</div><div class="menu-item-desc">Sourdough, smashed avocado, poached egg, chilli flakes, micro greens</div><div class="menu-item-price">৳ 320</div><div class="menu-item-tag">Staff Pick</div></div>
+      <div class="menu-item"><div class="menu-item-num">02</div><div class="menu-item-name">Club Sandwich</div><div class="menu-item-desc">Triple-decker with smoked chicken, fresh veggies, aioli and toasted brioche</div><div class="menu-item-price">৳ 380</div></div>
+      <div class="menu-item"><div class="menu-item-num">03</div><div class="menu-item-name">Caesar Salad</div><div class="menu-item-desc">Romaine, house caesar dressing, parmesan shavings, sourdough croutons</div><div class="menu-item-price">৳ 300</div></div>
+      <div class="menu-item"><div class="menu-item-num">04</div><div class="menu-item-name">Daily Soup</div><div class="menu-item-desc">Seasonal, housemade soup served with warm crusty bread and herb butter</div><div class="menu-item-price">৳ 240</div><div class="menu-item-tag">Daily</div></div>
+      <div class="menu-item"><div class="menu-item-num">05</div><div class="menu-item-name">Shakshuka</div><div class="menu-item-desc">Eggs poached in spiced tomato sauce, feta, fresh herbs and flatbread</div><div class="menu-item-price">৳ 350</div></div>
+      <div class="menu-item"><div class="menu-item-num">06</div><div class="menu-item-name">Cheese Board</div><div class="menu-item-desc">Selection of artisan cheeses, crackers, seasonal fruit and honey</div><div class="menu-item-price">৳ 450</div></div>
+    </div>
+  </div>
+
+  <div id="tab-dessert" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-item-num">01</div><div class="menu-item-name">Drue Brownie</div><div class="menu-item-desc">Fudgy dark chocolate brownie, sea salt, served warm with vanilla ice cream</div><div class="menu-item-price">৳ 200</div><div class="menu-item-tag">Best Seller</div></div>
+      <div class="menu-item"><div class="menu-item-num">02</div><div class="menu-item-name">Mille-Feuille</div><div class="menu-item-desc">Flaky pastry layers, vanilla custard, powdered sugar, fresh berries</div><div class="menu-item-price">৳ 260</div></div>
+      <div class="menu-item"><div class="menu-item-num">03</div><div class="menu-item-name">Tiramisu Pot</div><div class="menu-item-desc">Classic Italian dessert reimagined in individual pots, espresso-soaked</div><div class="menu-item-price">৳ 280</div></div>
+      <div class="menu-item"><div class="menu-item-num">04</div><div class="menu-item-name">Croissant</div><div class="menu-item-desc">Butter-laminated, baked fresh each morning. Plain or almond-filled</div><div class="menu-item-price">৳ 150</div><div class="menu-item-tag">Baked Daily</div></div>
+      <div class="menu-item"><div class="menu-item-num">05</div><div class="menu-item-name">Creme Brûlée</div><div class="menu-item-desc">Classic vanilla custard with a perfectly caramelized sugar crust</div><div class="menu-item-price">৳ 300</div></div>
+      <div class="menu-item"><div class="menu-item-num">06</div><div class="menu-item-name">Seasonal Cake</div><div class="menu-item-desc">Rotating slice of our baker's creation, ask your server for today's offering</div><div class="menu-item-price">৳ 220</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section id="specials">
+  <div class="section-header reveal">
+    <div class="section-eyebrow" style="color:var(--caramel);">Chef's Selections</div>
+    <h2 class="section-title-light" style="color:var(--espresso);">Signature <em style="color:var(--caramel);">Creations</em></h2>
+  </div>
+  <div class="specials-grid">
+    <div class="special-card reveal reveal-delay-1">
+      <div class="special-card-visual" style="background: linear-gradient(135deg, #2D1508 0%, #4A2510 100%);">
+        <svg width="140" height="160" viewBox="0 0 140 160">
+          <!-- Cold brew glass -->
+          <rect x="35" y="30" width="70" height="100" rx="6" fill="#1C0F08"/>
+          <rect x="37" y="32" width="66" height="96" rx="5" fill="#1A0A04" opacity="0.8"/>
+          <!-- Ice cubes -->
+          <rect x="45" y="80" width="20" height="20" rx="2" fill="#4A8FB5" opacity="0.6"/>
+          <rect x="70" y="70" width="22" height="22" rx="2" fill="#5AA0C8" opacity="0.5"/>
+          <rect x="55" y="95" width="18" height="18" rx="2" fill="#4A8FB5" opacity="0.5"/>
+          <!-- Coffee liquid -->
+          <rect x="37" y="55" width="66" height="75" rx="3" fill="#2C1208" opacity="0.9"/>
+          <rect x="37" y="55" width="66" height="8" rx="2" fill="#C9963A" opacity="0.3"/>
+          <!-- Straw -->
+          <rect x="90" y="20" width="4" height="90" rx="2" fill="#C9963A" opacity="0.8"/>
+          <!-- Glass shine -->
+          <rect x="42" y="35" width="3" height="50" rx="1" fill="white" opacity="0.1"/>
+          <!-- Condensation drops -->
+          <circle cx="38" cy="70" r="2" fill="#4A8FB5" opacity="0.4"/>
+          <circle cx="38" cy="85" r="1.5" fill="#4A8FB5" opacity="0.3"/>
+          <circle cx="100" cy="75" r="2" fill="#4A8FB5" opacity="0.3"/>
+        </svg>
+        <div class="special-badge">Signature</div>
+      </div>
+      <div class="special-body">
+        <div class="special-name">Drue <em>Cold Brew</em></div>
+        <div class="special-desc">18-hour steep, served over hand-chipped ice. Notes of dark chocolate, vanilla oak and a lingering sweetness.</div>
+        <div class="special-footer">
+          <div class="special-price">৳ 280</div>
+          <a href="#reservation" class="special-try">Order Now →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="special-card reveal reveal-delay-2">
+      <div class="special-card-visual" style="background: linear-gradient(135deg, #5A6E4A 0%, #3A4E2A 100%);">
+        <svg width="140" height="160" viewBox="0 0 140 160">
+          <!-- Toast plate -->
+          <ellipse cx="70" cy="140" rx="55" ry="10" fill="#E8D5B0" opacity="0.3"/>
+          <!-- Toast slice -->
+          <rect x="25" y="65" width="90" height="70" rx="8" fill="#C9963A"/>
+          <rect x="27" y="67" width="86" height="66" rx="7" fill="#A0722D"/>
+          <!-- Avocado spread -->
+          <ellipse cx="70" cy="85" rx="35" ry="22" fill="#7AB648" opacity="0.9"/>
+          <ellipse cx="70" cy="85" rx="25" ry="15" fill="#5A9632" opacity="0.8"/>
+          <!-- Egg -->
+          <ellipse cx="70" cy="80" rx="16" ry="12" fill="white" opacity="0.9"/>
+          <ellipse cx="70" cy="80" rx="8" ry="6" fill="#F4A020"/>
+          <!-- Micro greens -->
+          <circle cx="45" cy="68" r="3" fill="#5A9632"/>
+          <circle cx="52" cy="65" r="2" fill="#7AB648"/>
+          <circle cx="95" cy="68" r="3" fill="#5A9632"/>
+          <circle cx="88" cy="65" r="2" fill="#7AB648"/>
+          <!-- Red pepper flakes -->
+          <rect x="55" y="72" width="4" height="2" rx="1" fill="#E05050" opacity="0.8"/>
+          <rect x="78" y="75" width="3" height="2" rx="1" fill="#E05050" opacity="0.8"/>
+        </svg>
+        <div class="special-badge">Staff Pick</div>
+      </div>
+      <div class="special-body">
+        <div class="special-name">Avocado <em>Toast</em></div>
+        <div class="special-desc">Fresh sourdough, smashed avocado, perfectly poached egg, chilli flakes and micro greens. Simple. Perfect.</div>
+        <div class="special-footer">
+          <div class="special-price">৳ 320</div>
+          <a href="#reservation" class="special-try">Order Now →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="special-card reveal reveal-delay-3">
+      <div class="special-card-visual" style="background: linear-gradient(135deg, #3D1F10 0%, #5C3020 100%);">
+        <svg width="140" height="160" viewBox="0 0 140 160">
+          <!-- Cup and saucer -->
+          <ellipse cx="70" cy="130" rx="45" ry="8" fill="#4A2510"/>
+          <ellipse cx="70" cy="126" rx="45" ry="8" fill="#5C3020"/>
+          <ellipse cx="70" cy="122" rx="38" ry="6" fill="#4A2510"/>
+          <!-- Cup -->
+          <path d="M35 80 L45 122 H95 L105 80 Z" fill="#3D1F10"/>
+          <path d="M35 80 L45 122 H95 L105 80 Z" fill="url(#specGrad)"/>
+          <!-- Cup rim -->
+          <ellipse cx="70" cy="80" rx="35" ry="7" fill="#5C3020"/>
+          <ellipse cx="70" cy="77" rx="35" ry="7" fill="#6B3A22"/>
+          <!-- Coffee + latte art -->
+          <ellipse cx="70" cy="77" rx="30" ry="6" fill="#1C0F08"/>
+          <!-- Heart latte art -->
+          <path d="M70 72 C70 72 62 67 62 74 C62 77 65 79 70 82 C75 79 78 77 78 74 C78 67 70 72 70 72Z" fill="#C9963A" opacity="0.5"/>
+          <!-- Handle -->
+          <path d="M105 90 Q122 90 122 106 Q122 122 105 122" stroke="#5C3020" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <!-- Gold rim -->
+          <ellipse cx="70" cy="77" rx="35" ry="7" fill="none" stroke="#C9963A" stroke-width="1.5" opacity="0.6"/>
+          <!-- Steam wisps -->
+          <path d="M60 60 Q57 50 60 40" stroke="#C9963A" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+          <path d="M75 55 Q72 45 75 34" stroke="#C9963A" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+          <defs>
+            <linearGradient id="specGrad" x1="35" y1="80" x2="105" y2="122" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C9963A" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="special-badge">New</div>
+      </div>
+      <div class="special-body">
+        <div class="special-name">Drue <em>Signature Latte</em></div>
+        <div class="special-desc">Our house blend with hand-steamed milk, a swirl of caramel and a whisper of cardamom. Unforgettable.</div>
+        <div class="special-footer">
+          <div class="special-price">৳ 260</div>
+          <a href="#reservation" class="special-try">Order Now →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Inside Drue</div>
+    <h2 class="section-title-light">A <em>Glimpse</em> of Our World</h2>
+  </div>
+  <div class="gallery-grid reveal">
+    <!-- Large feature -->
+    <div class="gallery-item">
+      <div class="gallery-visual" style="background: linear-gradient(145deg, #2D1508, #5C3020); height:100%;">
+        <svg width="100%" height="100%" viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice">
+          <!-- Cafe interior scene -->
+          <rect width="400" height="440" fill="#2D1508"/>
+          <rect x="0" y="0" width="400" height="440" fill="url(#intGrad)"/>
+          <!-- Brick wall texture -->
+          <g opacity="0.08">
+            <rect x="0" y="40" width="60" height="24" fill="#C9963A"/><rect x="64" y="40" width="60" height="24" fill="#C9963A"/><rect x="128" y="40" width="60" height="24" fill="#C9963A"/>
+            <rect x="32" y="68" width="60" height="24" fill="#C9963A"/><rect x="96" y="68" width="60" height="24" fill="#C9963A"/>
+          </g>
+          <!-- Table and coffee -->
+          <ellipse cx="200" cy="380" rx="140" ry="20" fill="#1C0F08"/>
+          <rect x="140" y="300" width="120" height="80" rx="4" fill="#3D1F10"/>
+          <!-- Coffee cup on table -->
+          <ellipse cx="200" cy="302" rx="30" ry="6" fill="#4A2510"/>
+          <path d="M170 302 L177 330 H223 L230 302Z" fill="#4A2510"/>
+          <ellipse cx="200" cy="302" rx="30" ry="6" fill="#5C3020" opacity="0.5"/>
+          <ellipse cx="200" cy="300" rx="26" ry="5" fill="#1C0F08"/>
+          <path d="M200 295 Q188 291 180 295 Q188 298 200 295 Q212 291 220 295 Q212 298 200 295Z" fill="#A0522D" opacity="0.6"/>
+          <!-- Plant in corner -->
+          <rect x="340" y="340" width="10" height="100" fill="#3D1F10"/>
+          <ellipse cx="355" cy="310" rx="30" ry="40" fill="#5A6E4A"/>
+          <ellipse cx="340" cy="330" rx="22" ry="28" fill="#4A5D3A"/>
+          <!-- Pendant lights -->
+          <circle cx="120" cy="60" r="18" fill="#C9963A" opacity="0.15"/>
+          <circle cx="120" cy="60" r="12" fill="#C9963A" opacity="0.3"/>
+          <circle cx="120" cy="60" r="6" fill="#C9963A" opacity="0.8"/>
+          <line x1="120" y1="0" x2="120" y2="48" stroke="#888" stroke-width="1" opacity="0.4"/>
+          <circle cx="280" cy="80" r="16" fill="#C9963A" opacity="0.15"/>
+          <circle cx="280" cy="80" r="10" fill="#C9963A" opacity="0.3"/>
+          <circle cx="280" cy="80" r="5" fill="#C9963A" opacity="0.8"/>
+          <line x1="280" y1="0" x2="280" y2="68" stroke="#888" stroke-width="1" opacity="0.4"/>
+          <defs>
+            <radialGradient id="intGrad" cx="50%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="#C9963A" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-caption">Our Warm Interior</div></div>
+    </div>
+
+    <!-- Small items -->
+    <div class="gallery-item" style="height:220px;">
+      <div class="gallery-visual" style="background: linear-gradient(135deg, #1C0F08, #3D1F10); height:100%;">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <ellipse cx="80" cy="100" rx="55" ry="10" fill="#2D1508"/>
+          <ellipse cx="80" cy="96" rx="55" ry="10" fill="#3D1F10"/>
+          <path d="M35 55 L44 96 H116 L125 55Z" fill="#4A2510"/>
+          <ellipse cx="80" cy="55" rx="45" ry="10" fill="#5C3020"/>
+          <ellipse cx="80" cy="51" rx="45" ry="10" fill="#6B3A22"/>
+          <ellipse cx="80" cy="51" rx="38" ry="8" fill="#1C0F08"/>
+          <!-- Latte art -->
+          <path d="M80 44 C80 44 68 36 68 47 C68 52 73 56 80 60 C87 56 92 52 92 47 C92 36 80 44 80 44Z" fill="#C9963A" opacity="0.6"/>
+          <path d="M125 65 Q142 65 142 80 Q142 95 125 95" stroke="#5C3020" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <ellipse cx="80" cy="51" rx="45" ry="10" fill="none" stroke="#C9963A" stroke-width="1.5" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-caption">Latte Art</div></div>
+    </div>
+
+    <div class="gallery-item" style="height:220px;">
+      <div class="gallery-visual" style="background: linear-gradient(135deg, #5A6E4A, #3A4E2A); height:100%;">
+        <svg width="160" height="140" viewBox="0 0 160 140">
+          <!-- Salad bowl -->
+          <ellipse cx="80" cy="100" rx="60" ry="12" fill="#3A4E2A"/>
+          <path d="M20 70 Q20 112 80 112 Q140 112 140 70 Z" fill="#4A5D3A"/>
+          <ellipse cx="80" cy="70" rx="60" ry="15" fill="#5A6E4A"/>
+          <!-- Greens -->
+          <ellipse cx="60" cy="62" rx="22" ry="14" fill="#7AB648" opacity="0.9"/>
+          <ellipse cx="95" cy="58" rx="20" ry="12" fill="#8BC854" opacity="0.8"/>
+          <ellipse cx="75" cy="55" rx="16" ry="10" fill="#9ED460" opacity="0.7"/>
+          <!-- Tomatoes -->
+          <circle cx="50" cy="64" r="8" fill="#E05050" opacity="0.9"/>
+          <circle cx="110" cy="60" r="7" fill="#E05050" opacity="0.8"/>
+          <!-- Croutons -->
+          <rect x="82" y="56" width="12" height="10" rx="2" fill="#C9963A" opacity="0.8"/>
+          <rect x="55" y="52" width="10" height="8" rx="2" fill="#C9963A" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-caption">Fresh Salads</div></div>
+    </div>
+
+    <div class="gallery-item" style="height:220px;">
+      <div class="gallery-visual" style="background: linear-gradient(135deg, #3D1F10, #2D1508); height:100%;">
+        <svg width="160" height="140" viewBox="0 0 160 140">
+          <!-- Pastry plate -->
+          <ellipse cx="80" cy="115" rx="60" ry="10" fill="#3D1F10"/>
+          <ellipse cx="80" cy="110" rx="60" ry="10" fill="#4A2510"/>
+          <!-- Croissant -->
+          <path d="M30 80 Q50 40 80 60 Q110 40 130 80 Q110 95 80 85 Q50 95 30 80Z" fill="#C9963A"/>
+          <path d="M35 80 Q55 45 80 63 Q105 45 125 80" fill="none" stroke="#A0722D" stroke-width="3" stroke-linecap="round"/>
+          <path d="M40 78 Q58 50 80 66 Q102 50 120 78" fill="none" stroke="#B8832E" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          <!-- Shine -->
+          <path d="M55 62 Q65 50 80 58" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+          <!-- Powder sugar -->
+          <circle cx="60" cy="75" r="2" fill="white" opacity="0.5"/>
+          <circle cx="90" cy="68" r="1.5" fill="white" opacity="0.4"/>
+          <circle cx="105" cy="78" r="2" fill="white" opacity="0.4"/>
+          <circle cx="75" cy="82" r="1.5" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-caption">Fresh Pastries</div></div>
+    </div>
+
+    <div class="gallery-item" style="height:220px;">
+      <div class="gallery-visual" style="background: linear-gradient(135deg, #1C1C1C, #2D2010); height:100%;">
+        <svg width="160" height="140" viewBox="0 0 160 140">
+          <!-- Brownie on plate -->
+          <ellipse cx="80" cy="115" rx="55" ry="9" fill="#1C0F08"/>
+          <ellipse cx="80" cy="111" rx="55" ry="9" fill="#2D1508"/>
+          <!-- Brownie block -->
+          <rect x="30" y="65" width="100" height="50" rx="4" fill="#1A0805"/>
+          <rect x="30" y="65" width="100" height="50" rx="4" fill="url(#brownieGrad)"/>
+          <!-- Chocolate drizzle -->
+          <path d="M40 65 Q55 55 70 65 Q85 55 100 65 Q115 55 120 65" fill="none" stroke="#3D1F10" stroke-width="3" stroke-linecap="round"/>
+          <!-- Ice cream scoop -->
+          <ellipse cx="80" cy="55" rx="25" ry="22" fill="#FAF6EE" opacity="0.95"/>
+          <path d="M55 55 Q80 35 105 55" fill="none" stroke="#EDD9BB" stroke-width="1" opacity="0.5"/>
+          <!-- Caramel drip -->
+          <path d="M88 76 Q90 82 87 90" stroke="#C9963A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M72 76 Q70 84 73 92" stroke="#C9963A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Sea salt flakes -->
+          <rect x="62" y="68" width="5" height="2" rx="1" fill="white" opacity="0.6"/>
+          <rect x="85" y="72" width="4" height="2" rx="1" fill="white" opacity="0.5"/>
+          <defs>
+            <linearGradient id="brownieGrad" x1="30" y1="65" x2="130" y2="115" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C9963A" stop-opacity="0.1"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-caption">House Brownie</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <div class="section-eyebrow" style="color:var(--caramel);">Guest Stories</div>
+    <h2 class="section-title-light" style="color:var(--espresso);">What People <em style="color:var(--caramel);">Say</em></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="quote-mark">"</div>
+      <p class="testimonial-text">Drue Cafe has become my second home. The cold brew is phenomenal — nothing else in Dhaka comes close. The staff remembers my order every single time.</p>
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-author">Fatima Rahman</div>
+      <div class="testimonial-role">Architect · Regular since 2020</div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="quote-mark">"</div>
+      <p class="testimonial-text">The avocado toast and signature latte together is an experience. The interior is beautiful, always quiet enough to work, yet warm enough to feel alive.</p>
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-author">Karim Ahmed</div>
+      <div class="testimonial-role">Freelancer · Gulshan</div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-3">
+      <div class="quote-mark">"</div>
+      <p class="testimonial-text">I've traveled across South Asia and Drue Cafe's brownie is genuinely one of the best desserts I've had. The attention to detail in every dish is extraordinary.</p>
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-author">Priya Chatterjee</div>
+      <div class="testimonial-role">Food Blogger · Visiting from Kolkata</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Visit Us</div>
+    <h2 class="section-title-light">Reserve Your <em>Table</em></h2>
+  </div>
+
+  <div class="reservation-grid">
+    <div class="contact-info reveal">
+      <div class="contact-block">
+        <div class="contact-label">Location</div>
+        <div class="contact-value">House 12, Road 11<br>Banani, Dhaka 1213<br>Bangladesh</div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-label">Get in Touch</div>
+        <div class="contact-value">+880 1700-000000<br>hello@druecafe.com</div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-label">Opening Hours</div>
+        <div class="hours-grid">
+          <div class="hour-row"><span>Monday</span><span class="hour-time">8AM – 10PM</span></div>
+          <div class="hour-row"><span>Tuesday</span><span class="hour-time">8AM – 10PM</span></div>
+          <div class="hour-row"><span>Wednesday</span><span class="hour-time">8AM – 10PM</span></div>
+          <div class="hour-row"><span>Thursday</span><span class="hour-time">8AM – 10PM</span></div>
+          <div class="hour-row"><span>Friday</span><span class="hour-time">9AM – 11PM</span></div>
+          <div class="hour-row"><span>Saturday</span><span class="hour-time">9AM – 11PM</span></div>
+          <div class="hour-row"><span>Sunday</span><span class="hour-time">10AM – 9PM</span></div>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-label">Follow Us</div>
+        <div class="contact-value" style="font-size:0.9rem; font-family:'DM Sans', sans-serif;">@druecafe.dhaka</div>
+      </div>
+    </div>
+
+    <div class="res-form reveal reveal-delay-1">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input class="form-input" type="tel" placeholder="+880">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input class="form-input" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Time</label>
+          <input class="form-input" type="time">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Number of Guests</label>
+        <select class="form-select">
+          <option value="">Select guests</option>
+          <option>1 person</option>
+          <option>2 people</option>
+          <option>3–4 people</option>
+          <option>5–6 people</option>
+          <option>7+ people</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Special Requests</label>
+        <textarea class="form-textarea form-input" placeholder="Allergies, occasion, seating preference..."></textarea>
+      </div>
+      <button class="btn-submit" onclick="submitForm(this)">Reserve My Table</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">Drue <span>Cafe</span></div>
+      <div class="footer-tagline">Where every sip tells a story and every plate is made with intention.</div>
+      <div class="footer-social">
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">fb</a>
+        <a href="#" class="social-link">tt</a>
+        <a href="#" class="social-link">yt</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#specials">Specials</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reservation">Reserve</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Menu</div>
+      <ul class="footer-links">
+        <li><a href="#menu">Hot Drinks</a></li>
+        <li><a href="#menu">Cold Drinks</a></li>
+        <li><a href="#menu">Food & Snacks</a></li>
+        <li><a href="#menu">Desserts</a></li>
+        <li><a href="#specials">Signature Items</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Visit</div>
+      <ul class="footer-links">
+        <li><a href="#">Banani, Dhaka</a></li>
+        <li><a href="#">+880 1700-000000</a></li>
+        <li><a href="#">hello@druecafe.com</a></li>
+        <li><a href="#">Mon–Fri: 8AM–10PM</a></li>
+        <li><a href="#">Sat–Sun: 9AM–11PM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Drue Cafe. All Rights Reserved.</span>
+    <span>Made with ☕ in Dhaka, Bangladesh</span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .menu-item, .special-card, .gallery-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      ring.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.opacity = '0.6';
+    });
+  });
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Menu tabs
+  function switchTab(id) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Mobile menu
+  function toggleMobileMenu() {
+    alert('Menu: Story · Menu · Specials · Gallery · Reserve\n\nScroll down to explore!');
+  }
+
+  // Form submit
+  function submitForm(btn) {
+    btn.textContent = '✓ Reservation Sent!';
+    btn.style.background = '#5A6E4A';
+    btn.style.color = '#FAF6EE';
+    setTimeout(() => {
+      btn.textContent = 'Reserve My Table';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  }
+
+  // Parallax on hero
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const heroContent = document.querySelector('.hero-content');
+    const heroRings = document.querySelector('.hero-rings');
+    if (heroContent && scrolled < window.innerHeight) {
+      heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+      heroContent.style.opacity = 1 - scrolled / 600;
+    }
+    if (heroRings) {
+      heroRings.style.transform = `translateY(calc(-50% + ${scrolled * 0.2}px))`;
+    }
+  });
+</script>
+</body>
+</html>
